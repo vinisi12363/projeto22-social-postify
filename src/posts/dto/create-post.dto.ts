@@ -4,12 +4,10 @@ export class CreatePostDto {
     @IsNumber()
     id: number;
     
-    
     @IsNotEmpty({ message: 'All filed are required!' })
     @IsString()
     title: string;
-
-
+    
     @IsNotEmpty({ message: 'All filed are required!' })
     @IsString()
     text: string;

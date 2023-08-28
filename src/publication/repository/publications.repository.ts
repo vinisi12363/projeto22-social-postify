@@ -51,5 +51,10 @@ export class PublicationsRepository {
              where: { mediaId: id } 
         })
     }
+    async getPublicationByPostId(id: number): Promise<CreatePublicationDto | null> {
+        return await this.prisma.publication.findFirst({
+            where: { postId: id }
+        })
+    }
 
 }
