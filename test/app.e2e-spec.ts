@@ -242,7 +242,22 @@ describe('AppController (e2e)', () => {
       const postsRoute = `/posts/`;
       const postsHealthRoute = `/posts/health`;
       describe("/posts integration tests", () => {
-        
+        it("GET /health => should get an alive message from posts", async () => {
+          const { status, text } = await request(app.getHttpServer())
+              .get(`${postsHealthRoute}`);
+          expect(status).toBe(HttpStatus.OK);
+          expect(text).toBe("Posts online!")
+        });
+        it("POST /posts => should return status code 400 title missing", async () => {
+          const postBody = await new PostFactory().criarPostComImagemFaker();
+          delete postBody.title;
+
+          const { status } = await request(app.getHttpServer())
+              .post(`${postsRoute}`)
+              .send(postBody);
+          expect(status).toBe(HttpStatus.BAD_REQUEST);
+         });
+
         it("POST /posts => should create a post data without image; status code 200", async () => {
               const postBody = await new PostFactory().criarPostComImagemFaker();
 
@@ -323,6 +338,18 @@ describe('AppController (e2e)', () => {
 
        
         });
+        it("GET /posts => should return an array post data when with data; status code 200", async () => {
+          await new PostFactory().criarVariosPostsComImagemDBFaker(prisma);
+
+          const { status, body } = await request(app.getHttpServer())
+              .get(`${postsRoute}`);
+          expect(status).toBe(HttpStatus.OK);
+          expect(body).toEqual(
+              expect.arrayContaining(body)
+          );
+          expect(body).toHaveLength(2)
+      });
+
       });
 
         const publicationsRoute = `/publication/`;
