@@ -325,7 +325,7 @@ describe('AppController (e2e)', () => {
         });
       });
 
-        const publicationsRoute = `/publications/`;
+        const publicationsRoute = `/publication/`;
         const publicationsHealthRoute = `/publications/health`;
         const publicationsPublishedFilterFalse = `published=false`;
         const publicationsPublishedFilterTrue = `published=true`;

@@ -9,6 +9,10 @@ import {ConflictMediaException, ForbiddenMediaException, NotFoundMediaException}
 export class MediasService {
   constructor(private readonly mediasRepository: MediasRepository, private readonly publicationsRepository: PublicationsRepository) { }
   
+  getHealthMedias(): string {
+    return 'Medias online!';
+  }
+
   async create(body: CreateMediaDto): Promise<void>{
     const existMedia = await this.mediasRepository.getMediaByTitleAndUsername(body);
     if(!existMedia){

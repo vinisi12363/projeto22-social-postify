@@ -5,6 +5,10 @@ import { CreateMediaDto } from './dto/create-media.dto';
 @Controller('medias')
 export class MediasController {
   constructor(private readonly mediasService: MediasService) {}
+  @Get("health")
+  getHealthMediasController(): string {
+      return this.mediasService.getHealthMedias();
+  }
 
   @Post()
   create(@Body() createMediaDto: CreateMediaDto) {

@@ -8,6 +8,10 @@ import { NotFoundPostException, ForbiddenPostException } from './exceptions/post
 export class PostsService {
   constructor(private readonly postsRepository: PostsRepository, private readonly publicationsRepository: PublicationsRepository ) { }
   
+  getHealthPosts(): string {
+    return 'Posts online!';
+  }
+
   async create(body: CreatePostDto): Promise<void> {
     await this.postsRepository.addNewPost(body);
   }

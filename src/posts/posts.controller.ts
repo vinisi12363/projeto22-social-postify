@@ -5,7 +5,10 @@ import { CreatePostDto } from './dto/create-post.dto';
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
-
+  @Get("health")
+  getHealthPotsController(): string {
+      return this.postsService.getHealthPosts();
+  }
   @Post()
   create(@Body() createPostDto: CreatePostDto) {
     return this.postsService.create(createPostDto);

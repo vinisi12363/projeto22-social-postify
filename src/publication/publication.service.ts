@@ -17,6 +17,10 @@ export class PublicationService {
     private readonly publicationRepository: PublicationsRepository
   ) { }
 
+  getHealthPublications(): string {
+    return 'Publications online!';
+  }
+
   async addNewPublication(body: CreatePublicationDto): Promise<void> {
     await this.mediasService.findMediaById(body.mediaId);
     await this.postsService.getPostById(body.postId);

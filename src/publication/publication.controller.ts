@@ -7,6 +7,11 @@ import { CreatePublicationDto } from './dto/create-publication.dto';
 export class PublicationController {
   constructor(private readonly publicationService: PublicationService) {}
 
+  @Get("health")
+  getHealthPotsController(): string {
+      return this.publicationService.getHealthPublications();
+  }
+
   @Post()
   create(@Body() createPublicationDto: CreatePublicationDto) {
     return this.publicationService.addNewPublication(createPublicationDto);
