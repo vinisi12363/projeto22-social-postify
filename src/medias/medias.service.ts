@@ -1,26 +1,57 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMediaDto } from './dto/create-media.dto';
-import { UpdateMediaDto } from './dto/update-media.dto';
+import { MediasRepository } from './repository/medias.repository';
+import { PublicationsRepository } from 'src/publication/repository/publications.repository';
+import {ConflictMediaException, ForbiddenMediaException, NotFoundMediaException} from './exceptions/medias.exceptions'
+
 
 @Injectable()
 export class MediasService {
-  create(createMediaDto: CreateMediaDto) {
-    return 'This action adds a new media';
+  constructor(private readonly mediasRepository: MediasRepository, private readonly publicationsRepository: PublicationsRepository) { }
+  
+  async create(body: CreateMediaDto): Promise<void>{
+    const existMedia = await this.mediasRepository.getMediaByTitleAndUsername(body);
+    if(!existMedia){
+      await this.mediasRepository.addMedia(body);
+    }else {
+      throw new ConflictMediaException(body.title, body.username);
+    }
+    
   }
 
-  findAll() {
-    return `This action returns all medias`;
+  async findAll(): Promise <CreateMediaDto[]> {
+    return await this.mediasRepository.getAllMedias();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} media`;
+  async findMediaById(id: number): Promise <CreateMediaDto> {
+    const media = await this.mediasRepository.getMediaById(id)
+    if(media){
+      return media;
+    } else{
+      throw new NotFoundMediaException(id);
+    }
+  
   }
 
-  update(id: number, updateMediaDto: UpdateMediaDto) {
-    return `This action updates a #${id} media`;
+  async updateMediaById(id: number, body: CreateMediaDto): Promise<void> {
+    const existMedia = await this.mediasRepository.getMediaByTitleAndUsername(body);
+    if (!existMedia) {
+        await this.mediasRepository.updateMediaById(id, body);
+    }
+    else {
+        throw new ConflictMediaException(body.title, body.username);
+    }
+    
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} media`;
+  async removeMediaById(id: number): Promise <void> {
+    const publicationMediaIdExists = await this.publicationsRepository.getPublicationByMediaId(id);
+        if (publicationMediaIdExists) {
+            throw new ForbiddenMediaException(id, publicationMediaIdExists.id);
+        }else {
+          await this.mediasRepository.deleteMediaById(id);
+        }
+      
+    }
   }
-}
+

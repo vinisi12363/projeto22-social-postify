@@ -1,7 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { MediasService } from './medias.service';
 import { CreateMediaDto } from './dto/create-media.dto';
-import { UpdateMediaDto } from './dto/update-media.dto';
 
 @Controller('medias')
 export class MediasController {
@@ -19,16 +18,17 @@ export class MediasController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.mediasService.findOne(+id);
+    return this.mediasService.findMediaById(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMediaDto: UpdateMediaDto) {
-    return this.mediasService.update(+id, updateMediaDto);
+  update(@Param('id') id: string, @Body() updateMediaDto: CreateMediaDto) {
+    return this.mediasService.updateMediaById(+id, updateMediaDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.mediasService.remove(+id);
+    return this.mediasService.removeMediaById(Number(id));
   }
+  
 }
