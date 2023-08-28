@@ -25,9 +25,9 @@
     "dev:migration:reset": "npm run dev:load-envs prisma migrate reset",
     "dev:seed": "npm run dev:load-envs prisma db seed",
     "dev": "cross-env NODE_ENV=development nodemon --watch 'src/' --exec 'ts-node -r tsconfig-paths/register ./src/server.ts' -e ts"
-
   },
   "dependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
