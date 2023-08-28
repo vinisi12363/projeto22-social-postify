@@ -38,16 +38,15 @@ describe('AppController (e2e)', () => {
           const mediasRoute = `/medias/`;
           const mediasHealthRoute = `/medias/health`;
 
-
-          describe("/medias integration tests", () => {
-              it("GET /health => should get an alive message from medias", async () => {
+      describe("/medias integration tests", () => {
+        it("GET /health => should get an alive message from medias", async () => {
                   const { status, text } = await request(app.getHttpServer())
                       .get(`${mediasHealthRoute}`);
                   expect(status).toBe(HttpStatus.OK);
                   expect(text).toBe("Medias online!")
-              });
+        });
       
-               it("POST /medias => should create a media data; status code 200", async () => {
+        it("POST /medias => should create a media data; status code 200", async () => {
 
                 const postBody = await new MediaFactory().criarMediaFaker();
 
@@ -71,9 +70,8 @@ describe('AppController (e2e)', () => {
                 )
             )
             expect(status).toBe(HttpStatus.CREATED);
-          });
+        });
       
-
         it("POST /medias => should return status code 400 title missing", async () => {
 
             const postBody = await new MediaFactory().criarMediaFaker();
@@ -240,11 +238,12 @@ describe('AppController (e2e)', () => {
           expect(status).toBe(HttpStatus.BAD_REQUEST);
         });
       });
+
       const postsRoute = `/posts/`;
       const postsHealthRoute = `/posts/health`;
-        describe("/posts integration tests", () => {
+      describe("/posts integration tests", () => {
         
-          it("POST /posts => should create a post data without image; status code 200", async () => {
+        it("POST /posts => should create a post data without image; status code 200", async () => {
               const postBody = await new PostFactory().criarPostComImagemFaker();
 
               const { status } = await request(app.getHttpServer())
@@ -324,6 +323,8 @@ describe('AppController (e2e)', () => {
 
        
         });
+      });
+
         const publicationsRoute = `/publications/`;
         const publicationsHealthRoute = `/publications/health`;
         const publicationsPublishedFilterFalse = `published=false`;
@@ -331,8 +332,8 @@ describe('AppController (e2e)', () => {
 
         const date = new Date();
         const year = date.getFullYear();
-        const day = String(date.getDate()).padStart(2, '0'); // Garante que tenha dois dígitos
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Lembre-se que os meses são indexados de 0 a 11
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); 
         const today = `${year}-${month}-${day}`;
         const publicationsAfterTodayDate = `after=${new Date(today)}`;
 
@@ -407,5 +408,5 @@ describe('AppController (e2e)', () => {
           });
 
         });
-  });
+      
 });
